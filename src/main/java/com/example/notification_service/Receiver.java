@@ -1,23 +1,32 @@
 package com.example.notification_service;
 
-import java.util.concurrent.CountDownLatch;
-
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
+import com.example.notification_service.dto.OrderNotificationDTO;
+import com.example.notification_service.service.EmailService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class Receiver {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final EmailService emailService;
+    private final ObjectMapper objectMapper;
+
+    public Receiver(EmailService emailService, ObjectMapper objectMapper) {
+        this.emailService = emailService;
+        this.objectMapper = objectMapper;
+    }
 
     @RabbitListener(queues = "order.notifications")
-    public void receiveOrderMessage(String message) {
-        System.out.println("Received order message: " + message);
-        latch.countDown();
-    }
+    public void receiveOrderMessage(String messageJson) {
+        try {
+            OrderNotificationDTO notification = objectMapper.readValue(messageJson, OrderNotificationDTO.class);
+            System.out.println("Received order notification: " + notification);
 
-    public CountDownLatch getLatch() {
-        return latch;
+            emailService.sendOrderCreatedEmail(notification.getEmail(), notification.getOrder());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 }

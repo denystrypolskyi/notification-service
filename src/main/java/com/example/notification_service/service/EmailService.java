@@ -7,13 +7,12 @@ import org.springframework.stereotype.Service;
 import com.example.notification_service.dto.OrderDTO;
 import com.example.notification_service.dto.OrderItemDTO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender mailSender;
-
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
 
     public void sendOrderCreatedEmail(String toEmail, OrderDTO order) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();

@@ -7,16 +7,14 @@ import com.example.notification_service.dto.OrderNotificationDTO;
 import com.example.notification_service.service.EmailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class Receiver {
 
     private final EmailService emailService;
     private final ObjectMapper objectMapper;
-
-    public Receiver(EmailService emailService, ObjectMapper objectMapper) {
-        this.emailService = emailService;
-        this.objectMapper = objectMapper;
-    }
 
     @RabbitListener(queues = "order.notifications")
     public void receiveOrderMessage(String messageJson) {

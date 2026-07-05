@@ -60,7 +60,7 @@ MAIL_USERNAME
 MAIL_PASSWORD
 ```
 
-RabbitMQ connection values are configured through Spring RabbitMQ properties or Docker Compose environment variables.
+RabbitMQ settings are provided through Spring configuration or Docker Compose environment variables.
 
 ## Run Tests
 

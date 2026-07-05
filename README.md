@@ -1,6 +1,6 @@
 # Notification Service
 
-Notification service for the distributed backend system. It consumes order notification messages from RabbitMQ and sends order confirmation emails.
+Notification service for the e-commerce backend. It consumes order notification messages from RabbitMQ and sends order confirmation emails.
 
 ## Tech Stack
 
